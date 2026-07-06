@@ -293,37 +293,40 @@ export default function TurniStipendio() {
   };
  
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans p-3 sm:p-6">
-      <div className="max-w-3xl mx-auto">
- 
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Gauge className="w-5 h-5 text-amber-400" strokeWidth={2} />
-            <div>
-              <h1 className="text-sm font-bold tracking-widest uppercase text-zinc-100">Turni &amp; Stipendio</h1>
-              <p className="text-[11px] text-zinc-500 font-mono">parametri presi da busta paga reale</p>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.16),_transparent_35%),linear-gradient(135deg,_#09090b,_#111827)] text-zinc-100 font-sans px-3 py-4 sm:px-6 sm:py-6">
+      <div className="mx-auto flex max-w-4xl flex-col gap-4">
+        <header className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-2.5 text-amber-400">
+                <Gauge className="h-5 w-5" strokeWidth={2.2} />
+              </div>
+              <div>
+                <h1 className="text-base font-semibold uppercase tracking-[0.3em] text-zinc-100">Turni &amp; Stipendio</h1>
+                <p className="mt-1 text-[11px] font-mono text-zinc-500">parametri presi da busta paga reale</p>
+              </div>
             </div>
+            <button
+              onClick={() => setShowSettings((s) => !s)}
+              className={`flex h-11 w-11 items-center justify-center rounded-2xl border transition ${showSettings ? "border-amber-500/40 bg-amber-500/10 text-amber-400" : "border-zinc-800 bg-zinc-950/80 text-zinc-400 hover:text-zinc-100"}`}
+              aria-label="Impostazioni"
+            >
+              <Settings2 className="h-5 w-5" />
+            </button>
           </div>
-          <button
-            onClick={() => setShowSettings((s) => !s)}
-            className={`p-2 rounded border ${showSettings ? "bg-zinc-800 border-zinc-600 text-amber-400" : "bg-zinc-900 border-zinc-800 text-zinc-400"}`}
-            aria-label="Impostazioni"
-          >
-            <Settings2 className="w-4 h-4" />
-          </button>
-        </div>
- 
+        </header>
+
         {showSettings && (
-          <div className="mb-4 bg-zinc-900 border border-zinc-800 rounded-lg p-4 space-y-5">
-            <div className="border border-amber-500/40 rounded-lg p-3 bg-amber-500/5">
-              <button onClick={() => setShowImport((s) => !s)} className="w-full flex items-center justify-between">
-                <p className="text-[11px] uppercase tracking-widest text-amber-400 font-mono">Importa da busta paga</p>
-                <span className="text-amber-400 text-xs">{showImport ? "−" : "+"}</span>
+          <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3">
+              <button onClick={() => setShowImport((s) => !s)} className="flex w-full items-center justify-between rounded-xl px-1 py-1 text-left">
+                <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-amber-400">Importa da busta paga</p>
+                <span className="text-sm text-amber-400">{showImport ? "−" : "+"}</span>
               </button>
  
               {showImport && (
                 <div className="mt-3 space-y-3">
-                  <p className="text-[11px] text-zinc-500 font-mono leading-relaxed">
+                  <p className="text-[11px] leading-relaxed text-zinc-500 font-mono">
                     inserisci gli importi e le ore così come sono scritti sul cedolino: la app calcola da sola paga oraria, maggiorazioni e aliquote e aggiorna i parametri sotto.
                   </p>
  
@@ -370,7 +373,7 @@ export default function TurniStipendio() {
                     <ImportInput placeholder="importo €" value={importForm.nettoBustaVerifica} onChange={(v) => updateImportField("nettoBustaVerifica", v)} full />
                   </ImportRow>
  
-                  <button onClick={applyImport} className="w-full py-2 rounded bg-amber-500 text-zinc-950 text-sm font-bold hover:bg-amber-400 active:scale-95">
+                  <button onClick={applyImport} className="w-full rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
                     Calcola e applica ai parametri
                   </button>
  
@@ -378,7 +381,7 @@ export default function TurniStipendio() {
                     <p className="text-xs text-rose-400 font-mono">{importResult.error}</p>
                   )}
                   {importResult && !importResult.error && (
-                    <div className="bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs font-mono space-y-1">
+                    <div className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-3 text-xs font-mono space-y-1">
                       <p className="text-emerald-400">parametri applicati:</p>
                       <p className="text-zinc-400">paga oraria €{fmt(importResult.rate)}/h · straord. {fmt(importResult.overtime1Pct)}% / {fmt(importResult.overtime2Pct)}%</p>
                       <p className="text-zinc-400">ivs {fmt(importResult.ivsPct)}% · cigs {fmt(importResult.cigsPct)}% · irpef {fmt(importResult.irpefPct)}%</p>
@@ -394,9 +397,9 @@ export default function TurniStipendio() {
               )}
             </div>
  
-            <div>
-              <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-mono mb-3">Orario di lavoro</p>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
+              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Orario di lavoro</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Field label="Ore settimanali contrattuali">
                   <input type="number" step="0.5" value={config.weeklyHours}
                     onChange={(e) => updateConfig("weeklyHours", e.target.value)}
@@ -413,9 +416,9 @@ export default function TurniStipendio() {
               </p>
             </div>
  
-            <div>
-              <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-mono mb-3">Retribuzione e trattenute</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
+              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Retribuzione e trattenute</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 <Field label="Paga oraria base (€/h)">
                   <input type="number" step="0.01" value={config.rate}
                     onChange={(e) => updateConfig("rate", e.target.value)}
@@ -473,11 +476,11 @@ export default function TurniStipendio() {
               </p>
             </div>
  
-            <div>
-              <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-mono mb-3">Saldi ferie / permessi (da busta paga)</p>
+            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
+              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Saldi ferie / permessi (da busta paga)</p>
               <div className="space-y-3">
                 {BALANCE_TYPES.map((bt) => (
-                  <div key={bt.key} className="bg-zinc-950 border border-zinc-800 rounded p-2.5">
+                  <div key={bt.key} className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2.5">
                     <p className="text-xs text-teal-400 font-mono mb-2">{bt.label}</p>
                     <div className="grid grid-cols-3 gap-2">
                       {["maturato", "goduto", "residuo"].map((f) => (
@@ -495,30 +498,31 @@ export default function TurniStipendio() {
                 sono saldi cumulativi: aggiornali a mano ogni volta che ricevi una nuova busta paga.
               </p>
             </div>
-          </div>
+          </section>
         )}
  
-        <div className="flex items-center justify-between mb-2">
-          <button onClick={() => changeMonth(-1)} className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-400">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <span className="font-mono text-sm tracking-wide text-zinc-200">{MESI[month]} {year}</span>
-          <button onClick={() => changeMonth(1)} className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-amber-400">
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+        <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <button onClick={() => changeMonth(-1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/80 text-zinc-400 transition hover:text-amber-400">
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <span className="text-center text-sm font-semibold tracking-[0.2em] text-zinc-200">{MESI[month]} {year}</span>
+            <button onClick={() => changeMonth(1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/80 text-zinc-400 transition hover:text-amber-400">
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
  
-        <div className="flex flex-wrap gap-3 mb-3 px-1">
+          <div className="mb-3 flex flex-wrap gap-2 px-1">
           {CATEGORIES.map((c) => (
-            <div key={c.key} className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-sm ${c.dot}`} />
-              <span className="text-[11px] text-zinc-500 font-mono">{c.label}</span>
+            <div key={c.key} className="flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-950/70 px-2.5 py-1">
+              <span className={`h-2.5 w-2.5 rounded-full ${c.dot}`} />
+              <span className="text-[11px] font-mono text-zinc-500">{c.label}</span>
             </div>
           ))}
         </div>
  
-        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-2 sm:p-3">
-          <div className="grid grid-cols-7 gap-1 mb-1">
+        <div className="mt-3 rounded-3xl border border-zinc-800/80 bg-zinc-950/70 p-2 sm:p-3">
+          <div className="mb-1 grid grid-cols-7 gap-1">
             {GIORNI.map((g) => (
               <div key={g} className="text-center text-[10px] uppercase tracking-wider text-zinc-600 font-mono py-1">{g}</div>
             ))}
@@ -540,7 +544,7 @@ export default function TurniStipendio() {
                       <button
                         key={key}
                         onClick={() => toggleDay(d)}
-                        className={`relative aspect-square rounded border flex flex-col items-center justify-center gap-0.5 px-0.5 transition-colors
+                        className={`relative aspect-square rounded-2xl border p-1 transition-all duration-200 flex flex-col items-center justify-center gap-0.5
                           ${isSelected ? "bg-zinc-800 border-amber-500" : total > 0 ? "bg-zinc-950 border-zinc-700" : "bg-zinc-900 border-zinc-800"}
                           ${isToday && !isSelected ? "ring-1 ring-amber-500" : ""}
                           hover:border-zinc-500`}
@@ -566,7 +570,7 @@ export default function TurniStipendio() {
                 </div>
  
                 {hasSelected && (
-                  <div className="my-2 bg-zinc-950 border border-amber-500/40 rounded-lg p-3">
+                  <div className="my-2 rounded-2xl border border-amber-500/40 bg-zinc-950/90 p-3 shadow-lg shadow-black/20">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-mono text-sm text-amber-300">{pad(selectedDay)} {MESI[month]}</span>
                       <button onClick={() => setSelectedDay(null)} className="text-zinc-500 hover:text-zinc-200">
@@ -581,9 +585,9 @@ export default function TurniStipendio() {
                             <p className={`text-xs font-semibold ${c.text}`}>{c.label}</p>
                             <p className="text-[10px] text-zinc-600 font-mono">€{fmt(rates[c.key])}/h</p>
                           </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
+                          <div className="flex shrink-0 items-center gap-1.5">
                             <button onClick={() => step(c.key, -0.5)}
-                              className="w-7 h-7 flex items-center justify-center rounded bg-zinc-800 text-zinc-400 hover:text-zinc-100 active:scale-95">
+                              className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
                               <Minus className="w-3.5 h-3.5" />
                             </button>
                             <input
@@ -593,10 +597,10 @@ export default function TurniStipendio() {
                                 const v = parseFloat(e.target.value);
                                 setDraft((prev) => ({ ...prev, [c.key]: isNaN(v) ? 0 : v }));
                               }}
-                              className={`w-14 text-center bg-zinc-950 border border-zinc-700 rounded px-1 py-1 text-sm font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
+                              className={`w-14 rounded-xl border border-zinc-700 bg-zinc-950 px-1 py-1 text-center text-sm font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
                             />
                             <button onClick={() => step(c.key, 0.5)}
-                              className="w-7 h-7 flex items-center justify-center rounded bg-zinc-800 text-zinc-400 hover:text-zinc-100 active:scale-95">
+                              className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
                               <Plus className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -607,10 +611,10 @@ export default function TurniStipendio() {
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
                       <span className="text-xs text-zinc-500 font-mono">tot {fmt(dayTotal(draft))}h · € {fmt(dayPay(draft))}</span>
                       <div className="flex gap-2">
-                        <button onClick={clearDay} className="p-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-rose-400">
+                        <button onClick={clearDay} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-zinc-500 transition hover:text-rose-400">
                           <Trash2 className="w-4 h-4" />
                         </button>
-                        <button onClick={saveDay} className="px-4 py-2 rounded bg-amber-500 text-zinc-950 text-sm font-bold hover:bg-amber-400 active:scale-95">
+                        <button onClick={saveDay} className="rounded-2xl bg-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
                           Salva
                         </button>
                       </div>
@@ -621,13 +625,14 @@ export default function TurniStipendio() {
             );
           })}
         </div>
+        </section>
  
-        <div className="mt-4 bg-zinc-900 border border-zinc-800 rounded-lg p-4">
-          <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-mono mb-3">Riepilogo mese</p>
+        <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-4 shadow-lg shadow-black/20">
+          <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Riepilogo mese</p>
  
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">
+          <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {CATEGORIES.map((c) => (
-              <div key={c.key} className={`bg-zinc-950 border-l-4 ${c.border} border-y border-r border-zinc-800 rounded p-2`}>
+              <div key={c.key} className={`rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2 ${c.border} border-l-4`}>
                 <p className="text-[10px] uppercase tracking-wide text-zinc-500 font-mono mb-1">{c.label}</p>
                 <span className={`text-lg font-mono font-bold ${c.text}`}>{fmt(monthStats.hours[c.key])}</span>
                 <span className="text-[10px] text-zinc-600 font-mono ml-1">h</span>
@@ -635,7 +640,7 @@ export default function TurniStipendio() {
             ))}
           </div>
  
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-zinc-800 pt-3">
+          <div className="grid grid-cols-1 gap-3 border-t border-zinc-800 pt-3 sm:grid-cols-2 xl:grid-cols-4">
             <Stat label="Giorni lavorati" value={monthStats.daysWorked} />
             <Stat label="Ore totali" value={`${fmt(monthStats.totalHours)}h`} />
             <Stat label="Lordo stimato" value={`€ ${fmt(monthStats.gross)}`} accent="text-amber-400" />
@@ -648,15 +653,15 @@ export default function TurniStipendio() {
             <Stat label="Addizionali" value={`€ ${fmt(config.addizionaliMensili)}`} accent="text-zinc-400" />
           </div>
  
-          <div className="grid grid-cols-3 gap-3 border-t border-zinc-800 pt-3 mt-3">
+          <div className="mt-3 grid grid-cols-1 gap-3 border-t border-zinc-800 pt-3 sm:grid-cols-3">
             {BALANCE_TYPES.map((bt) => (
               <Stat key={bt.key} label={`Residuo ${bt.label}`} value={`${fmt(balances[bt.key].residuo)}h`} accent="text-teal-400" />
             ))}
           </div>
-        </div>
+        </section>
  
         {saveError && (
-          <p className="text-[11px] text-rose-400 font-mono mt-3">
+          <p className="mt-3 text-[11px] font-mono text-rose-400">
             attenzione: il salvataggio automatico non è riuscito, i dati potrebbero non persistere.
           </p>
         )}
