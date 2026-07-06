@@ -1,9 +1,11 @@
-name: Deploy to GitHub Pages
+name: CI/CD for GitHub Pages
 
 on:
   push:
     branches:
       - main
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,11 +13,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: github-pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,21 +32,47 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Run tests
+        run: npm test
+
+      - name: Build app
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Verify build output
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+          ls -la dist
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
+          name: github-pages-dist
           path: dist
+          if-no-files-found: error
 
   deploy:
-    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: ci
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages-dist
+          path: dist
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
