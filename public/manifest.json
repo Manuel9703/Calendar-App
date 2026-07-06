@@ -2,7 +2,7 @@
   "name": "Turni & Stipendio",
   "short_name": "Turni",
   "description": "Calcola turni e stipendio in modo semplice.",
-  "start_url": "/NOME-REPO/",
+  "start_url": "/Calendar-App/",
   "display": "standalone",
   "background_color": "#09090b",
   "theme_color": "#09090b",
