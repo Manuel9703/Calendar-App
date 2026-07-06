@@ -532,9 +532,9 @@ export default function TurniStipendio() {
             const hasSelected = selectedDay !== null && week.includes(selectedDay);
             return (
               <div key={wi}>
-                <div className="grid grid-cols-7 gap-1">
+                <div className="grid grid-cols-7 gap-1.5">
                   {week.map((d, i) => {
-                    if (d === null) return <div key={`e${wi}-${i}`} />;
+                    if (d === null) return <div key={`e${wi}-${i}`} className="aspect-square" />;
                     const key = dateKey(year, month, d);
                     const entry = shifts[key];
                     const total = dayTotal(entry);
@@ -544,8 +544,8 @@ export default function TurniStipendio() {
                       <button
                         key={key}
                         onClick={() => toggleDay(d)}
-                        className={`relative aspect-square rounded-2xl border p-1 transition-all duration-200 flex flex-col items-center justify-center gap-0.5
-                          ${isSelected ? "bg-zinc-800 border-amber-500" : total > 0 ? "bg-zinc-950 border-zinc-700" : "bg-zinc-900 border-zinc-800"}
+                        className={`relative aspect-square overflow-hidden rounded-2xl border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
+                          ${isSelected ? "border-amber-500 bg-zinc-800" : total > 0 ? "border-zinc-700 bg-zinc-950" : "border-zinc-800 bg-zinc-900"}
                           ${isToday && !isSelected ? "ring-1 ring-amber-500" : ""}
                           hover:border-zinc-500`}
                       >
