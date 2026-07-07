@@ -652,7 +652,7 @@ export default function TurniStipendio() {
  
           <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {CATEGORIES.map((c) => (
-              <div key={c.key} className={`rounded-2xl border border-slate-800 bg-slate-950/80 p-2 ${c.border} border-l-4`}>
+              <div key={c.key} className="rounded-2xl border border-slate-800 bg-slate-950/80 p-2 border-l-4">
                 <p className="text-[10px] uppercase tracking-wide text-slate-500 font-mono mb-1">{c.label}</p>
                 <span className={`text-lg font-mono font-bold ${c.text}`}>{fmt(monthStats.hours[c.key])}</span>
                 <span className="text-[10px] text-slate-600 font-mono ml-1">h</span>
