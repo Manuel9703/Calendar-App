@@ -37,10 +37,10 @@ const BALANCE_TYPES = [
  
 // Colori coerenti categoria -> bordo / testo / puntino / dorso barra
 const CATEGORIES = [
-  { key: "normal",    label: "Normali",      dot: "bg-amber-500",   text: "text-amber-400",   border: "border-amber-500",   ring: "focus:ring-amber-500" },
+  { key: "normal",    label: "Normali",      dot: "bg-blue-500",   text: "text-blue-400",   border: "border-blue-500",   ring: "focus:ring-blue-500" },
   { key: "overtime1", label: "Straord. 35%", dot: "bg-orange-500",  text: "text-orange-400",  border: "border-orange-500",  ring: "focus:ring-orange-500" },
   { key: "overtime2", label: "Straord. 50%", dot: "bg-red-600",     text: "text-red-400",     border: "border-red-600",     ring: "focus:ring-red-500" },
-  { key: "night",     label: "Notturne",     dot: "bg-indigo-400",  text: "text-indigo-300",  border: "border-indigo-400",  ring: "focus:ring-indigo-400" },
+  { key: "night",     label: "Notturne",     dot: "bg-violet-400",  text: "text-violet-300",  border: "border-violet-400",  ring: "focus:ring-violet-400" },
   { key: "holiday",   label: "Festive",      dot: "bg-fuchsia-500", text: "text-fuchsia-400", border: "border-fuchsia-500", ring: "focus:ring-fuchsia-500" },
 ];
  
@@ -296,22 +296,22 @@ export default function TurniStipendio() {
   };
  
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.16),_transparent_35%),linear-gradient(135deg,_#09090b,_#111827)] text-zinc-100 font-sans px-3 py-4 sm:px-6 sm:py-6">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_35%),linear-gradient(135deg,_#020617,_#172554)] text-slate-100 font-sans px-3 py-4 sm:px-6 sm:py-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-4">
-        <header className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
+        <header className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-2.5 text-amber-400">
+              <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-2.5 text-blue-400">
                 <Gauge className="h-5 w-5" strokeWidth={2.2} />
               </div>
               <div>
-                <h1 className="text-base font-semibold uppercase tracking-[0.3em] text-zinc-100">Turni &amp; Stipendio</h1>
-                <p className="mt-1 text-[11px] font-mono text-zinc-500">parametri presi da busta paga reale</p>
+                <h1 className="text-base font-semibold uppercase tracking-[0.3em] text-slate-100">Turni &amp; Stipendio</h1>
+                <p className="mt-1 text-[11px] font-mono text-slate-500">parametri presi da busta paga reale</p>
               </div>
             </div>
             <button
               onClick={() => setShowSettings((s) => !s)}
-              className={`flex h-11 w-11 items-center justify-center rounded-2xl border transition ${showSettings ? "border-amber-500/40 bg-amber-500/10 text-amber-400" : "border-zinc-800 bg-zinc-950/80 text-zinc-400 hover:text-zinc-100"}`}
+              className={`flex h-11 w-11 items-center justify-center rounded-2xl border transition ${showSettings ? "border-blue-500/40 bg-blue-500/10 text-blue-400" : "border-slate-800 bg-slate-950/80 text-slate-400 hover:text-slate-100"}`}
               aria-label="Impostazioni"
             >
               <Settings2 className="h-5 w-5" />
@@ -320,16 +320,16 @@ export default function TurniStipendio() {
         </header>
 
         {showSettings && (
-          <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3">
+          <section className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
+            <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-3">
               <button onClick={() => setShowImport((s) => !s)} className="flex w-full items-center justify-between rounded-xl px-1 py-1 text-left">
-                <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-amber-400">Importa da busta paga</p>
-                <span className="text-sm text-amber-400">{showImport ? "−" : "+"}</span>
+                <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-blue-400">Importa da busta paga</p>
+                <span className="text-sm text-blue-400">{showImport ? "−" : "+"}</span>
               </button>
  
               {showImport && (
                 <div className="mt-3 space-y-3">
-                  <p className="text-[11px] leading-relaxed text-zinc-500 font-mono">
+                  <p className="text-[11px] leading-relaxed text-slate-500 font-mono">
                     inserisci gli importi e le ore così come sono scritti sul cedolino: la app calcola da sola paga oraria, maggiorazioni e aliquote e aggiorna i parametri sotto.
                   </p>
  
@@ -376,7 +376,7 @@ export default function TurniStipendio() {
                     <ImportInput placeholder="importo €" value={importForm.nettoBustaVerifica} onChange={(v) => updateImportField("nettoBustaVerifica", v)} full />
                   </ImportRow>
  
-                  <button onClick={applyImport} className="w-full rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
+                  <button onClick={applyImport} className="w-full rounded-2xl bg-blue-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-blue-400 active:scale-[0.98]">
                     Calcola e applica ai parametri
                   </button>
  
@@ -384,11 +384,11 @@ export default function TurniStipendio() {
                     <p className="text-xs text-rose-400 font-mono">{importResult.error}</p>
                   )}
                   {importResult && !importResult.error && (
-                    <div className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-3 text-xs font-mono space-y-1">
+                    <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-3 text-xs font-mono space-y-1">
                       <p className="text-emerald-400">parametri applicati:</p>
-                      <p className="text-zinc-400">paga oraria €{fmt(importResult.rate)}/h · straord. {fmt(importResult.overtime1Pct)}% / {fmt(importResult.overtime2Pct)}%</p>
-                      <p className="text-zinc-400">ivs {fmt(importResult.ivsPct)}% · cigs {fmt(importResult.cigsPct)}% · irpef {fmt(importResult.irpefPct)}%</p>
-                      <p className="text-zinc-400">netto ricalcolato: € {fmt(importResult.nettoCalcolato)}</p>
+                      <p className="text-slate-400">paga oraria €{fmt(importResult.rate)}/h · straord. {fmt(importResult.overtime1Pct)}% / {fmt(importResult.overtime2Pct)}%</p>
+                      <p className="text-slate-400">ivs {fmt(importResult.ivsPct)}% · cigs {fmt(importResult.cigsPct)}% · irpef {fmt(importResult.irpefPct)}%</p>
+                      <p className="text-slate-400">netto ricalcolato: € {fmt(importResult.nettoCalcolato)}</p>
                       {importResult.nettoBusta !== null && (
                         <p className={Math.abs(importResult.nettoCalcolato - importResult.nettoBusta) < 2 ? "text-emerald-400" : "text-orange-400"}>
                           netto busta dichiarato: € {fmt(importResult.nettoBusta)} · scarto € {fmt(importResult.nettoCalcolato - importResult.nettoBusta)}
@@ -405,16 +405,16 @@ export default function TurniStipendio() {
                 <Field label="Ore settimanali contrattuali">
                   <input type="number" step="0.5" value={config.weeklyHours}
                     onChange={(e) => updateConfig("weeklyHours", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-2 text-base font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-2 text-base font-mono text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </Field>
                 <Field label="Giorni lavorativi/settimana">
                   <input type="number" step="1" min="1" max="7" value={config.workingDaysPerWeek}
                     onChange={(e) => updateConfig("workingDaysPerWeek", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-2 text-base font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-2 text-base font-mono text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </Field>
               </div>
-              <p className="text-[11px] text-zinc-500 font-mono mt-2">
-                ore normali di default per giorno: <span className="text-amber-300 font-bold">{fmt(dailyHours)}h</span> ({fmt(config.weeklyHours)}h ÷ {config.workingDaysPerWeek} giorni)
+              <p className="text-[11px] text-slate-500 font-mono mt-2">
+                ore normali di default per giorno: <span className="text-blue-300 font-bold">{fmt(dailyHours)}h</span> ({fmt(config.weeklyHours)}h ÷ {config.workingDaysPerWeek} giorni)
               </p>
             </SettingsSection>
 
@@ -423,55 +423,55 @@ export default function TurniStipendio() {
                 <Field label="Paga oraria base (€/h)">
                   <input type="number" step="0.01" value={config.rate}
                     onChange={(e) => updateConfig("rate", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </Field>
                 <Field label="Straord. 35% (magg. %)">
                   <input type="number" step="1" value={config.overtime1Pct}
                     onChange={(e) => updateConfig("overtime1Pct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-500" />
                 </Field>
                 <Field label="Straord. 50% (magg. %)">
                   <input type="number" step="1" value={config.overtime2Pct}
                     onChange={(e) => updateConfig("overtime2Pct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-red-300 focus:outline-none focus:ring-1 focus:ring-red-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-red-300 focus:outline-none focus:ring-1 focus:ring-red-500" />
                 </Field>
                 <Field label="Magg. notturno %">
                   <input type="number" step="1" value={config.nightPct}
                     onChange={(e) => updateConfig("nightPct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-violet-300 focus:outline-none focus:ring-1 focus:ring-violet-400" />
                 </Field>
                 <Field label="Magg. festivo %">
                   <input type="number" step="1" value={config.holidayPct}
                     onChange={(e) => updateConfig("holidayPct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-fuchsia-300 focus:outline-none focus:ring-1 focus:ring-fuchsia-500" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-fuchsia-300 focus:outline-none focus:ring-1 focus:ring-fuchsia-500" />
                 </Field>
                 <Field label="IVS %">
                   <input type="number" step="0.01" value={config.ivsPct}
                     onChange={(e) => updateConfig("ivsPct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400" />
                 </Field>
                 <Field label="CIGS %">
                   <input type="number" step="0.01" value={config.cigsPct}
                     onChange={(e) => updateConfig("cigsPct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400" />
                 </Field>
                 <Field label="IRPEF lorda %">
                   <input type="number" step="0.1" value={config.irpefPct}
                     onChange={(e) => updateConfig("irpefPct", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400" />
                 </Field>
                 <Field label="Detrazioni lav.dip. (€)">
                   <input type="number" step="0.01" value={config.detrazioniMensili}
                     onChange={(e) => updateConfig("detrazioniMensili", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400" />
                 </Field>
                 <Field label="Addizionali reg.+com. (€)">
                   <input type="number" step="0.01" value={config.addizionaliMensili}
                     onChange={(e) => updateConfig("addizionaliMensili", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+                    className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400" />
                 </Field>
               </div>
-              <p className="text-[11px] text-zinc-600 mt-3 font-mono leading-relaxed">
+              <p className="text-[11px] text-slate-600 mt-3 font-mono leading-relaxed">
                 irpef lorda % è l'aliquota sull'imponibile fiscale (non conteggia gli scaglioni annuali cumulati).
                 addizionali regionale/comunale in busta sono spesso acconti su un residuo dell'anno precedente: mettici l'importo fisso che vedi scritto.
               </p>
@@ -480,51 +480,51 @@ export default function TurniStipendio() {
             <SettingsSection title="Saldi ferie / permessi" open={showBalances} onToggle={() => setShowBalances((s) => !s)}>
               <div className="space-y-3">
                 {BALANCE_TYPES.map((bt) => (
-                  <div key={bt.key} className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2.5">
+                  <div key={bt.key} className="rounded-2xl border border-slate-800 bg-slate-950/80 p-2.5">
                     <p className="text-xs text-teal-400 font-mono mb-2">{bt.label}</p>
                     <div className="grid grid-cols-3 gap-2">
                       {["maturato", "goduto", "residuo"].map((f) => (
                         <Field key={f} label={f}>
                           <input type="number" step="0.01" value={balances[bt.key][f]}
                             onChange={(e) => updateBalance(bt.key, f, e.target.value)}
-                            className="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+                            className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500" />
                         </Field>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
-              <p className="text-[11px] text-zinc-600 mt-2 font-mono">
+              <p className="text-[11px] text-slate-600 mt-2 font-mono">
                 sono saldi cumulativi: aggiornali a mano ogni volta che ricevi una nuova busta paga.
               </p>
             </SettingsSection>
           </section>
         )}
  
-        <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
+        <section className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
           <div className="mb-3 flex items-center justify-between gap-2">
-            <button onClick={() => changeMonth(-1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/80 text-zinc-400 transition hover:text-amber-400">
+            <button onClick={() => changeMonth(-1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-800 bg-slate-950/80 text-slate-400 transition hover:text-blue-400">
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-center text-sm font-semibold tracking-[0.2em] text-zinc-200">{MESI[month]} {year}</span>
-            <button onClick={() => changeMonth(1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-950/80 text-zinc-400 transition hover:text-amber-400">
+            <span className="text-center text-sm font-semibold tracking-[0.2em] text-slate-200">{MESI[month]} {year}</span>
+            <button onClick={() => changeMonth(1)} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-800 bg-slate-950/80 text-slate-400 transition hover:text-blue-400">
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
  
           <div className="mb-3 flex flex-wrap gap-2 px-1">
           {CATEGORIES.map((c) => (
-            <div key={c.key} className="flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-950/70 px-2.5 py-1">
+            <div key={c.key} className="flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-950/70 px-2.5 py-1">
               <span className={`h-2.5 w-2.5 rounded-full ${c.dot}`} />
-              <span className="text-[11px] font-mono text-zinc-500">{c.label}</span>
+              <span className="text-[11px] font-mono text-slate-500">{c.label}</span>
             </div>
           ))}
         </div>
  
-        <div className="mt-3 rounded-3xl border border-zinc-800/80 bg-zinc-950/70 p-2 sm:p-3">
+        <div className="mt-3 rounded-3xl border border-slate-800/80 bg-slate-950/70 p-2 sm:p-3">
           <div className="mb-1 grid grid-cols-7 gap-1">
             {GIORNI.map((g) => (
-              <div key={g} className="text-center text-[10px] uppercase tracking-wider text-zinc-600 font-mono py-1">{g}</div>
+              <div key={g} className="text-center text-[10px] uppercase tracking-wider text-slate-600 font-mono py-1">{g}</div>
             ))}
           </div>
  
@@ -542,11 +542,11 @@ export default function TurniStipendio() {
                     key={key}
                     onClick={() => toggleDay(d)}
                     className={`relative aspect-square overflow-hidden rounded-2xl border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
-                      ${isSelected ? "border-amber-500 bg-zinc-800" : total > 0 ? "border-zinc-700 bg-zinc-950" : "border-zinc-800 bg-zinc-900"}
-                      ${isToday && !isSelected ? "ring-1 ring-amber-500" : ""}
-                      hover:border-zinc-500 active:scale-95`}
+                      ${isSelected ? "border-blue-500 bg-slate-800" : total > 0 ? "border-slate-700 bg-slate-950" : "border-slate-800 bg-slate-900"}
+                      ${isToday && !isSelected ? "ring-1 ring-blue-500" : ""}
+                      hover:border-slate-500 active:scale-95`}
                   >
-                    <span className="text-[11px] font-mono text-zinc-400 leading-none">{d}</span>
+                    <span className="text-[11px] font-mono text-slate-400 leading-none">{d}</span>
                     {total > 0 ? (
                       <>
                         <div className="w-full flex h-1 rounded-sm overflow-hidden mt-0.5">
@@ -556,10 +556,10 @@ export default function TurniStipendio() {
                             return <span key={c.key} className={c.dot} style={{ width: `${(v / total) * 100}%` }} />;
                           })}
                         </div>
-                        <span className="text-[10px] font-mono text-zinc-200 leading-none mt-0.5">{fmt(total)}h</span>
+                        <span className="text-[10px] font-mono text-slate-200 leading-none mt-0.5">{fmt(total)}h</span>
                       </>
                     ) : (
-                      <span className="text-[10px] font-mono text-zinc-700 leading-none mt-0.5">–</span>
+                      <span className="text-[10px] font-mono text-slate-700 leading-none mt-0.5">–</span>
                     )}
                   </button>
                 );
@@ -576,25 +576,25 @@ export default function TurniStipendio() {
               onClick={() => setSelectedDay(null)}
             />
             <div className="fixed inset-x-0 bottom-0 z-50 animate-[slideUp_0.2s_ease-out]">
-              <div className="mx-auto max-w-4xl rounded-t-3xl border border-amber-500/40 bg-zinc-950 p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl shadow-black/50">
-                <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-zinc-700" />
+              <div className="mx-auto max-w-4xl rounded-t-3xl border border-blue-500/40 bg-slate-950 p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl shadow-black/50">
+                <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-slate-700" />
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-base text-amber-300">{pad(selectedDay)} {MESI[month]} {year}</span>
-                  <button onClick={() => setSelectedDay(null)} className="flex h-9 w-9 items-center justify-center text-zinc-500 hover:text-zinc-200" aria-label="Chiudi">
+                  <span className="font-mono text-base text-blue-300">{pad(selectedDay)} {MESI[month]} {year}</span>
+                  <button onClick={() => setSelectedDay(null)} className="flex h-9 w-9 items-center justify-center text-slate-500 hover:text-slate-200" aria-label="Chiudi">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
                 <div className="max-h-[55vh] overflow-y-auto space-y-2 -mx-1 px-1">
                   {CATEGORIES.map((c) => (
-                    <div key={c.key} className={`flex items-center justify-between gap-2 pl-2 border-l-4 ${c.border} rounded-sm bg-zinc-900/60 py-2 pr-1.5`}>
+                    <div key={c.key} className={`flex items-center justify-between gap-2 pl-2 border-l-4 ${c.border} rounded-sm bg-slate-900/60 py-2 pr-1.5`}>
                       <div className="min-w-0">
                         <p className={`text-sm font-semibold ${c.text}`}>{c.label}</p>
-                        <p className="text-[11px] text-zinc-600 font-mono">€{fmt(rates[c.key])}/h</p>
+                        <p className="text-[11px] text-slate-600 font-mono">€{fmt(rates[c.key])}/h</p>
                       </div>
                       <div className="flex shrink-0 items-center gap-1.5">
                         <button onClick={() => step(c.key, -0.5)}
-                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
+                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-400 transition hover:text-slate-100 active:scale-95">
                           <Minus className="w-4 h-4" />
                         </button>
                         <input
@@ -604,10 +604,10 @@ export default function TurniStipendio() {
                             const v = parseFloat(e.target.value);
                             setDraft((prev) => ({ ...prev, [c.key]: isNaN(v) ? 0 : v }));
                           }}
-                          className={`w-14 rounded-xl border border-zinc-700 bg-zinc-950 px-1 py-2 text-center text-base font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
+                          className={`w-14 rounded-xl border border-slate-700 bg-slate-950 px-1 py-2 text-center text-base font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
                         />
                         <button onClick={() => step(c.key, 0.5)}
-                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
+                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-800 text-slate-400 transition hover:text-slate-100 active:scale-95">
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
@@ -615,13 +615,13 @@ export default function TurniStipendio() {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
-                  <span className="text-xs text-zinc-500 font-mono">tot {fmt(dayTotal(draft))}h · € {fmt(dayPay(draft))}</span>
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-800">
+                  <span className="text-xs text-slate-500 font-mono">tot {fmt(dayTotal(draft))}h · € {fmt(dayPay(draft))}</span>
                   <div className="flex gap-2">
-                    <button onClick={clearDay} className="flex h-11 w-11 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-zinc-500 transition hover:text-rose-400" aria-label="Elimina giorno">
+                    <button onClick={clearDay} className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 text-slate-500 transition hover:text-rose-400" aria-label="Elimina giorno">
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <button onClick={saveDay} className="rounded-2xl bg-amber-500 px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
+                    <button onClick={saveDay} className="rounded-2xl bg-blue-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-blue-400 active:scale-[0.98]">
                       Salva
                     </button>
                   </div>
@@ -631,33 +631,33 @@ export default function TurniStipendio() {
           </>
         )}
  
-        <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-4 shadow-lg shadow-black/20">
-          <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Riepilogo mese</p>
+        <section className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-4 shadow-lg shadow-black/20">
+          <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-slate-500">Riepilogo mese</p>
  
           <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
             {CATEGORIES.map((c) => (
-              <div key={c.key} className={`rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2 ${c.border} border-l-4`}>
-                <p className="text-[10px] uppercase tracking-wide text-zinc-500 font-mono mb-1">{c.label}</p>
+              <div key={c.key} className={`rounded-2xl border border-slate-800 bg-slate-950/80 p-2 ${c.border} border-l-4`}>
+                <p className="text-[10px] uppercase tracking-wide text-slate-500 font-mono mb-1">{c.label}</p>
                 <span className={`text-lg font-mono font-bold ${c.text}`}>{fmt(monthStats.hours[c.key])}</span>
-                <span className="text-[10px] text-zinc-600 font-mono ml-1">h</span>
+                <span className="text-[10px] text-slate-600 font-mono ml-1">h</span>
               </div>
             ))}
           </div>
  
-          <div className="grid grid-cols-1 gap-3 border-t border-zinc-800 pt-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 border-t border-slate-800 pt-3 sm:grid-cols-2 xl:grid-cols-4">
             <Stat label="Giorni lavorati" value={monthStats.daysWorked} />
             <Stat label="Ore totali" value={`${fmt(monthStats.totalHours)}h`} />
-            <Stat label="Lordo stimato" value={`€ ${fmt(monthStats.gross)}`} accent="text-amber-400" />
+            <Stat label="Lordo stimato" value={`€ ${fmt(monthStats.gross)}`} accent="text-blue-400" />
             <Stat label="Netto stimato" value={`€ ${fmt(monthStats.net)}`} accent="text-emerald-400" />
           </div>
  
-          <div className="grid grid-cols-3 gap-3 border-t border-zinc-800 pt-3 mt-3">
-            <Stat label="IVS + CIGS" value={`€ ${fmt(monthStats.ivs + monthStats.cigs)}`} accent="text-zinc-400" />
-            <Stat label="IRPEF" value={`€ ${fmt(monthStats.irpef)}`} accent="text-zinc-400" />
-            <Stat label="Addizionali" value={`€ ${fmt(config.addizionaliMensili)}`} accent="text-zinc-400" />
+          <div className="grid grid-cols-3 gap-3 border-t border-slate-800 pt-3 mt-3">
+            <Stat label="IVS + CIGS" value={`€ ${fmt(monthStats.ivs + monthStats.cigs)}`} accent="text-slate-400" />
+            <Stat label="IRPEF" value={`€ ${fmt(monthStats.irpef)}`} accent="text-slate-400" />
+            <Stat label="Addizionali" value={`€ ${fmt(config.addizionaliMensili)}`} accent="text-slate-400" />
           </div>
  
-          <div className="mt-3 grid grid-cols-1 gap-3 border-t border-zinc-800 pt-3 sm:grid-cols-3">
+          <div className="mt-3 grid grid-cols-1 gap-3 border-t border-slate-800 pt-3 sm:grid-cols-3">
             {BALANCE_TYPES.map((bt) => (
               <Stat key={bt.key} label={`Residuo ${bt.label}`} value={`${fmt(balances[bt.key].residuo)}h`} accent="text-teal-400" />
             ))}
@@ -677,7 +677,7 @@ export default function TurniStipendio() {
 function ImportRow({ label, children }) {
   return (
     <div>
-      <p className="text-[11px] text-zinc-400 font-mono mb-1">{label}</p>
+      <p className="text-[11px] text-slate-400 font-mono mb-1">{label}</p>
       <div className="flex gap-2">{children}</div>
     </div>
   );
@@ -699,17 +699,17 @@ function ImportInput({ placeholder, value, onChange, full }) {
       type="text" inputMode="decimal" placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(sanitizeNumericText(e.target.value))}
-      className={`${full ? "w-full" : "flex-1"} bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 placeholder-zinc-700 focus:outline-none focus:ring-1 focus:ring-amber-500`}
+      className={`${full ? "w-full" : "flex-1"} bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 placeholder-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500`}
     />
   );
 }
  
 function SettingsSection({ title, open, onToggle, children }) {
   return (
-    <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
+    <div className="mt-5 rounded-2xl border border-slate-800/80 bg-slate-950/60 p-3">
       <button onClick={onToggle} className="flex w-full items-center justify-between rounded-xl px-1 py-1 text-left">
-        <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">{title}</p>
-        <span className="text-sm text-zinc-500">{open ? "−" : "+"}</span>
+        <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-slate-500">{title}</p>
+        <span className="text-sm text-slate-500">{open ? "−" : "+"}</span>
       </button>
       {open && <div className="mt-3">{children}</div>}
     </div>
@@ -719,7 +719,7 @@ function SettingsSection({ title, open, onToggle, children }) {
 function Field({ label, children }) {
   return (
     <label className="block">
-      <span className="block text-[10px] uppercase tracking-wide text-zinc-500 font-mono mb-1">{label}</span>
+      <span className="block text-[10px] uppercase tracking-wide text-slate-500 font-mono mb-1">{label}</span>
       {children}
     </label>
   );
@@ -728,8 +728,8 @@ function Field({ label, children }) {
 function Stat({ label, value, accent }) {
   return (
     <div>
-      <p className="text-[10px] uppercase tracking-wide text-zinc-500 font-mono mb-0.5">{label}</p>
-      <p className={`text-base font-mono font-bold ${accent || "text-zinc-100"}`}>{value}</p>
+      <p className="text-[10px] uppercase tracking-wide text-slate-500 font-mono mb-0.5">{label}</p>
+      <p className={`text-base font-mono font-bold ${accent || "text-slate-100"}`}>{value}</p>
     </div>
   );
 }
