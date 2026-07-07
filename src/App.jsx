@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { ChevronLeft, ChevronRight, Settings2, X, Trash2, Gauge, Plus, Minus } from "lucide-react";
  
 const GIORNI = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
@@ -67,6 +67,8 @@ export default function TurniStipendio() {
   const [balancesLoaded, setBalancesLoaded] = useState(false);
   const [monthLoaded, setMonthLoaded] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const settingsPanelRef = useRef(null);
+  const settingsButtonRef = useRef(null);
   const [showImport, setShowImport] = useState(false);
   const [showWorkHours, setShowWorkHours] = useState(true);
   const [showPayConfig, setShowPayConfig] = useState(true);
@@ -87,7 +89,18 @@ export default function TurniStipendio() {
   const [saveError, setSaveError] = useState(false);
  
   const mKey = monthKey(year, month);
- 
+
+  useEffect(() => {
+    if (!showSettings) return;
+    const handlePointerDown = (e) => {
+      if (settingsPanelRef.current?.contains(e.target)) return;
+      if (settingsButtonRef.current?.contains(e.target)) return;
+      setShowSettings(false);
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [showSettings]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -310,6 +323,7 @@ export default function TurniStipendio() {
               </div>
             </div>
             <button
+              ref={settingsButtonRef}
               onClick={() => setShowSettings((s) => !s)}
               className={`flex h-11 w-11 items-center justify-center rounded-2xl border transition ${showSettings ? "border-blue-500/40 bg-blue-500/10 text-blue-400" : "border-slate-800 bg-slate-950/80 text-slate-400 hover:text-slate-100"}`}
               aria-label="Impostazioni"
@@ -320,7 +334,7 @@ export default function TurniStipendio() {
         </header>
 
         {showSettings && (
-          <section className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
+          <section ref={settingsPanelRef} className="rounded-3xl border border-slate-800/80 bg-slate-900/80 p-3 shadow-lg shadow-black/20 sm:p-4">
             <div className="rounded-2xl border border-blue-500/30 bg-blue-500/10 p-3">
               <button onClick={() => setShowImport((s) => !s)} className="flex w-full items-center justify-between rounded-xl px-1 py-1 text-left">
                 <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-blue-400">Importa da busta paga</p>
@@ -701,7 +715,7 @@ function ImportInput({ placeholder, value, onChange, full }) {
       type="text" inputMode="decimal" placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(sanitizeNumericText(e.target.value))}
-      className={`${full ? "w-full" : "flex-1"} bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 placeholder-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+      className={`${full ? "w-full" : "flex-1 min-w-0"} bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-sm font-mono text-slate-200 placeholder-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500`}
     />
   );
 }
