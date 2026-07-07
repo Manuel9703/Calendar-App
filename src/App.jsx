@@ -68,6 +68,9 @@ export default function TurniStipendio() {
   const [monthLoaded, setMonthLoaded] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showImport, setShowImport] = useState(false);
+  const [showWorkHours, setShowWorkHours] = useState(true);
+  const [showPayConfig, setShowPayConfig] = useState(true);
+  const [showBalances, setShowBalances] = useState(true);
   const [importForm, setImportForm] = useState({
     retribuzioneOrdinaria: "", oreOrdinarie: "",
     importoStraord35: "", oreStraord35: "",
@@ -397,27 +400,25 @@ export default function TurniStipendio() {
               )}
             </div>
  
-            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
-              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Orario di lavoro</p>
+            <SettingsSection title="Orario di lavoro" open={showWorkHours} onToggle={() => setShowWorkHours((s) => !s)}>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Field label="Ore settimanali contrattuali">
                   <input type="number" step="0.5" value={config.weeklyHours}
                     onChange={(e) => updateConfig("weeklyHours", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-2 text-base font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
                 </Field>
                 <Field label="Giorni lavorativi/settimana">
                   <input type="number" step="1" min="1" max="7" value={config.workingDaysPerWeek}
                     onChange={(e) => updateConfig("workingDaysPerWeek", e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
+                    className="w-full bg-zinc-950 border border-zinc-700 rounded px-2 py-2 text-base font-mono text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-500" />
                 </Field>
               </div>
               <p className="text-[11px] text-zinc-500 font-mono mt-2">
                 ore normali di default per giorno: <span className="text-amber-300 font-bold">{fmt(dailyHours)}h</span> ({fmt(config.weeklyHours)}h ÷ {config.workingDaysPerWeek} giorni)
               </p>
-            </div>
- 
-            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
-              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Retribuzione e trattenute</p>
+            </SettingsSection>
+
+            <SettingsSection title="Retribuzione e trattenute" open={showPayConfig} onToggle={() => setShowPayConfig((s) => !s)}>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 <Field label="Paga oraria base (€/h)">
                   <input type="number" step="0.01" value={config.rate}
@@ -474,10 +475,9 @@ export default function TurniStipendio() {
                 irpef lorda % è l'aliquota sull'imponibile fiscale (non conteggia gli scaglioni annuali cumulati).
                 addizionali regionale/comunale in busta sono spesso acconti su un residuo dell'anno precedente: mettici l'importo fisso che vedi scritto.
               </p>
-            </div>
- 
-            <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
-              <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Saldi ferie / permessi (da busta paga)</p>
+            </SettingsSection>
+
+            <SettingsSection title="Saldi ferie / permessi" open={showBalances} onToggle={() => setShowBalances((s) => !s)}>
               <div className="space-y-3">
                 {BALANCE_TYPES.map((bt) => (
                   <div key={bt.key} className="rounded-2xl border border-zinc-800 bg-zinc-950/80 p-2.5">
@@ -487,7 +487,7 @@ export default function TurniStipendio() {
                         <Field key={f} label={f}>
                           <input type="number" step="0.01" value={balances[bt.key][f]}
                             onChange={(e) => updateBalance(bt.key, f, e.target.value)}
-                            className="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1 text-xs font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+                            className="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1.5 text-sm font-mono text-zinc-200 focus:outline-none focus:ring-1 focus:ring-teal-500" />
                         </Field>
                       ))}
                     </div>
@@ -497,7 +497,7 @@ export default function TurniStipendio() {
               <p className="text-[11px] text-zinc-600 mt-2 font-mono">
                 sono saldi cumulativi: aggiornali a mano ogni volta che ricevi una nuova busta paga.
               </p>
-            </div>
+            </SettingsSection>
           </section>
         )}
  
@@ -528,104 +528,108 @@ export default function TurniStipendio() {
             ))}
           </div>
  
-          {weeks.map((week, wi) => {
-            const hasSelected = selectedDay !== null && week.includes(selectedDay);
-            return (
-              <div key={wi}>
-                <div className="grid grid-cols-7 gap-1.5">
-                  {week.map((d, i) => {
-                    if (d === null) return <div key={`e${wi}-${i}`} className="aspect-square" />;
-                    const key = dateKey(year, month, d);
-                    const entry = shifts[key];
-                    const total = dayTotal(entry);
-                    const isToday = year === today.getFullYear() && month === today.getMonth() && d === today.getDate();
-                    const isSelected = selectedDay === d;
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => toggleDay(d)}
-                        className={`relative aspect-square overflow-hidden rounded-2xl border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
-                          ${isSelected ? "border-amber-500 bg-zinc-800" : total > 0 ? "border-zinc-700 bg-zinc-950" : "border-zinc-800 bg-zinc-900"}
-                          ${isToday && !isSelected ? "ring-1 ring-amber-500" : ""}
-                          hover:border-zinc-500`}
-                      >
-                        <span className="text-[11px] font-mono text-zinc-400 leading-none">{d}</span>
-                        {total > 0 ? (
-                          <>
-                            <div className="w-full flex h-1 rounded-sm overflow-hidden mt-0.5">
-                              {CATEGORIES.map((c) => {
-                                const v = entry[c.key] || 0;
-                                if (v <= 0) return null;
-                                return <span key={c.key} className={c.dot} style={{ width: `${(v / total) * 100}%` }} />;
-                              })}
-                            </div>
-                            <span className="text-[10px] font-mono text-zinc-200 leading-none mt-0.5">{fmt(total)}h</span>
-                          </>
-                        ) : (
-                          <span className="text-[10px] font-mono text-zinc-700 leading-none mt-0.5">–</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
- 
-                {hasSelected && (
-                  <div className="my-2 rounded-2xl border border-amber-500/40 bg-zinc-950/90 p-3 shadow-lg shadow-black/20">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-mono text-sm text-amber-300">{pad(selectedDay)} {MESI[month]}</span>
-                      <button onClick={() => setSelectedDay(null)} className="text-zinc-500 hover:text-zinc-200">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
- 
-                    <div className="space-y-2">
-                      {CATEGORIES.map((c) => (
-                        <div key={c.key} className={`flex items-center justify-between gap-2 pl-2 border-l-4 ${c.border} rounded-sm bg-zinc-900/60 py-1.5 pr-1.5`}>
-                          <div className="min-w-0">
-                            <p className={`text-xs font-semibold ${c.text}`}>{c.label}</p>
-                            <p className="text-[10px] text-zinc-600 font-mono">€{fmt(rates[c.key])}/h</p>
-                          </div>
-                          <div className="flex shrink-0 items-center gap-1.5">
-                            <button onClick={() => step(c.key, -0.5)}
-                              className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
-                              <Minus className="w-3.5 h-3.5" />
-                            </button>
-                            <input
-                              type="number" min="0" step="0.5"
-                              value={draft[c.key]}
-                              onChange={(e) => {
-                                const v = parseFloat(e.target.value);
-                                setDraft((prev) => ({ ...prev, [c.key]: isNaN(v) ? 0 : v }));
-                              }}
-                              className={`w-14 rounded-xl border border-zinc-700 bg-zinc-950 px-1 py-1 text-center text-sm font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
-                            />
-                            <button onClick={() => step(c.key, 0.5)}
-                              className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
-                              <Plus className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
+          {weeks.map((week, wi) => (
+            <div key={wi} className="grid grid-cols-7 gap-1.5">
+              {week.map((d, i) => {
+                if (d === null) return <div key={`e${wi}-${i}`} className="aspect-square" />;
+                const key = dateKey(year, month, d);
+                const entry = shifts[key];
+                const total = dayTotal(entry);
+                const isToday = year === today.getFullYear() && month === today.getMonth() && d === today.getDate();
+                const isSelected = selectedDay === d;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => toggleDay(d)}
+                    className={`relative aspect-square overflow-hidden rounded-2xl border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
+                      ${isSelected ? "border-amber-500 bg-zinc-800" : total > 0 ? "border-zinc-700 bg-zinc-950" : "border-zinc-800 bg-zinc-900"}
+                      ${isToday && !isSelected ? "ring-1 ring-amber-500" : ""}
+                      hover:border-zinc-500 active:scale-95`}
+                  >
+                    <span className="text-[11px] font-mono text-zinc-400 leading-none">{d}</span>
+                    {total > 0 ? (
+                      <>
+                        <div className="w-full flex h-1 rounded-sm overflow-hidden mt-0.5">
+                          {CATEGORIES.map((c) => {
+                            const v = entry[c.key] || 0;
+                            if (v <= 0) return null;
+                            return <span key={c.key} className={c.dot} style={{ width: `${(v / total) * 100}%` }} />;
+                          })}
                         </div>
-                      ))}
-                    </div>
- 
-                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
-                      <span className="text-xs text-zinc-500 font-mono">tot {fmt(dayTotal(draft))}h · € {fmt(dayPay(draft))}</span>
-                      <div className="flex gap-2">
-                        <button onClick={clearDay} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-zinc-500 transition hover:text-rose-400">
-                          <Trash2 className="w-4 h-4" />
+                        <span className="text-[10px] font-mono text-zinc-200 leading-none mt-0.5">{fmt(total)}h</span>
+                      </>
+                    ) : (
+                      <span className="text-[10px] font-mono text-zinc-700 leading-none mt-0.5">–</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        </section>
+
+        {selectedDay !== null && (
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.15s_ease-out]"
+              onClick={() => setSelectedDay(null)}
+            />
+            <div className="fixed inset-x-0 bottom-0 z-50 animate-[slideUp_0.2s_ease-out]">
+              <div className="mx-auto max-w-4xl rounded-t-3xl border border-amber-500/40 bg-zinc-950 p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-2xl shadow-black/50">
+                <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-zinc-700" />
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-base text-amber-300">{pad(selectedDay)} {MESI[month]} {year}</span>
+                  <button onClick={() => setSelectedDay(null)} className="flex h-9 w-9 items-center justify-center text-zinc-500 hover:text-zinc-200" aria-label="Chiudi">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="max-h-[55vh] overflow-y-auto space-y-2 -mx-1 px-1">
+                  {CATEGORIES.map((c) => (
+                    <div key={c.key} className={`flex items-center justify-between gap-2 pl-2 border-l-4 ${c.border} rounded-sm bg-zinc-900/60 py-2 pr-1.5`}>
+                      <div className="min-w-0">
+                        <p className={`text-sm font-semibold ${c.text}`}>{c.label}</p>
+                        <p className="text-[11px] text-zinc-600 font-mono">€{fmt(rates[c.key])}/h</p>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-1.5">
+                        <button onClick={() => step(c.key, -0.5)}
+                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
+                          <Minus className="w-4 h-4" />
                         </button>
-                        <button onClick={saveDay} className="rounded-2xl bg-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
-                          Salva
+                        <input
+                          type="number" min="0" step="0.5"
+                          value={draft[c.key]}
+                          onChange={(e) => {
+                            const v = parseFloat(e.target.value);
+                            setDraft((prev) => ({ ...prev, [c.key]: isNaN(v) ? 0 : v }));
+                          }}
+                          className={`w-14 rounded-xl border border-zinc-700 bg-zinc-950 px-1 py-2 text-center text-base font-mono ${c.text} focus:outline-none focus:ring-1 ${c.ring}`}
+                        />
+                        <button onClick={() => step(c.key, 0.5)}
+                          className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition hover:text-zinc-100 active:scale-95">
+                          <Plus className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
+                  <span className="text-xs text-zinc-500 font-mono">tot {fmt(dayTotal(draft))}h · € {fmt(dayPay(draft))}</span>
+                  <div className="flex gap-2">
+                    <button onClick={clearDay} className="flex h-11 w-11 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-zinc-500 transition hover:text-rose-400" aria-label="Elimina giorno">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <button onClick={saveDay} className="rounded-2xl bg-amber-500 px-5 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-amber-400 active:scale-[0.98]">
+                      Salva
+                    </button>
                   </div>
-                )}
+                </div>
               </div>
-            );
-          })}
-        </div>
-        </section>
+            </div>
+          </>
+        )}
  
         <section className="rounded-3xl border border-zinc-800/80 bg-zinc-900/80 p-4 shadow-lg shadow-black/20">
           <p className="mb-3 text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">Riepilogo mese</p>
@@ -700,6 +704,18 @@ function ImportInput({ placeholder, value, onChange, full }) {
   );
 }
  
+function SettingsSection({ title, open, onToggle, children }) {
+  return (
+    <div className="mt-5 rounded-2xl border border-zinc-800/80 bg-zinc-950/60 p-3">
+      <button onClick={onToggle} className="flex w-full items-center justify-between rounded-xl px-1 py-1 text-left">
+        <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-500">{title}</p>
+        <span className="text-sm text-zinc-500">{open ? "−" : "+"}</span>
+      </button>
+      {open && <div className="mt-3">{children}</div>}
+    </div>
+  );
+}
+
 function Field({ label, children }) {
   return (
     <label className="block">
