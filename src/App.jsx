@@ -528,6 +528,7 @@ export default function TurniStipendio() {
             ))}
           </div>
  
+          <div className="space-y-2.5">
           {weeks.map((week, wi) => (
             <div key={wi} className="grid grid-cols-7 gap-1.5">
               {week.map((d, i) => {
@@ -541,7 +542,7 @@ export default function TurniStipendio() {
                   <button
                     key={key}
                     onClick={() => toggleDay(d)}
-                    className={`relative aspect-square overflow-hidden rounded-2xl border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
+                    className={`relative aspect-square overflow-hidden rounded-lg border p-1.5 transition-all duration-200 flex flex-col items-center justify-center gap-0.5 shrink-0
                       ${isSelected ? "border-blue-500 bg-slate-800" : total > 0 ? "border-slate-700 bg-slate-950" : "border-slate-800 bg-slate-900"}
                       ${isToday && !isSelected ? "ring-1 ring-blue-500" : ""}
                       hover:border-slate-500 active:scale-95`}
@@ -566,6 +567,7 @@ export default function TurniStipendio() {
               })}
             </div>
           ))}
+          </div>
         </div>
         </section>
 
